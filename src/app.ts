@@ -1,13 +1,9 @@
-
-// https://stackoverflow.com/questions/68932747/adding-nestjs-as-express-module-results-in-nest-being-restarted
-
-import { ValidationPipe, HttpStatus } from "@nestjs/common";
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 
 import { AppModule } from "./app.module";
 
-// https://stackoverflow.com/questions/54349998/use-nestjs-package-in-nodejs-express-project/67719723#67719723
 export async function bootstrapApplication() {
 	try {
 		const application = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -41,7 +37,7 @@ export async function bootstrapApplication() {
 		// 	return utilityService.getCurrentInvocation().context?.awsRequestId;
 		// });
 		// application.use(morgan('LOG => :id | :invocationId | :date[iso] | :method | :status | :url - :total-time ms'));
-		
+
 		return application;
 	} catch (error) {
 		console.log('Nest start failed', error);
