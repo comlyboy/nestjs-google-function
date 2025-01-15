@@ -52,19 +52,20 @@ module.exports = (env, params) => {
 			__filename: true,
 		},
 		optimization: {
-			minimize: false,
-			// minimizer: [
-			// 	new TerserPlugin({
-			// 		terserOptions: {
-			// 			// https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
-			// 			// extractComments: "all",
-			// 			compress: {
-			// 				drop_console: false,
-			// 				drop_debugger: true,
-			// 			},
-			// 		},
-			// 	}),
-			// ],
+			minimize: true,
+			minimizer: [
+				new TerserPlugin({
+					// extractComments: "all",
+					terserOptions: {
+						keep_fnames: true,
+						keep_classnames: true,
+						compress: {
+							drop_console: false,
+							drop_debugger: true
+						},
+					},
+				}),
+			],
 		},
 	}
 };
