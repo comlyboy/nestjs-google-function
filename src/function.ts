@@ -1,7 +1,6 @@
 import { NestExpressApplication } from '@nestjs/platform-express';
-
-import { Request, Response } from 'express';
 import { http } from '@google-cloud/functions-framework';
+import { Request, Response } from 'express';
 
 import { bootstrapApplication } from "./app";
 
@@ -9,7 +8,6 @@ const _FUNCTION_NAME = 'sample-function';
 
 let application: NestExpressApplication = null;
 
-// Initialize the NestJS application
 async function getInitApplication() {
 	if (!application) {
 		application = await bootstrapApplication();
@@ -23,32 +21,43 @@ http(_FUNCTION_NAME, async (request: Request, response: Response) => {
 	expressInstance(request, response);
 });
 
-// Handle other events (e.g., Pub/Sub, Storage) by wrapping them as HTTP requests
 // cloudEvent(_FUNCTION_NAME, async (event: CloudEvent<any>) => {
-// 	console.log();
+// 	const app = await getInitApplication();
+// 	const body = JSON.stringify(event);
 
-// 	const expressInstance = await getInitApplication();
-// 	const request = {
-// 		method: 'POST',
-// 		url: '/api/pub-sub',
-// 		headers: { 'Content-Type': 'application/json' },
-// 		body: event,
-// 	} as unknown as Request;
+// 	console.log('CloudEvent app:', app);
+// 	return new Promise((resolve, reject) => {
+// 		const chunks: any[] = [];
+// 		const server = createServer(app);
 
-// 	const response = {
-// 		status: (code: number) => {
-// 			console.log(`Response status: ${code}`);
-// 			return response;
-// 		},
-// 		send: (body: any) => {
-// 			console.log(`Response body: ${body}`);
-// 			return response;
-// 		},
-// 		json: (body: any) => {
-// 			console.log(`Response JSON: ${body}`);
-// 			return response;
-// 		},
-// 	} as Response;
+// 		const req = new IncomingMessage(null);
+// 		req.method = 'POST';
+// 		req.url = '/api'; // your Nest endpoint
+// 		req.headers = { 'content-type': 'application/json' };
 
-// 	await expressInstance(request, response);
+// 		const res = new ServerResponse(req) as any;
+
+// 		res.write = ((write) =>
+// 			function (this: any, chunk: any) {
+// 				chunks.push(chunk);
+// 				return write.call(this, chunk);
+// 			})(res.write);
+
+// 		res.end = ((end) =>
+// 			function (this: any, chunk?: any) {
+// 				if (chunk) chunks.push(chunk);
+// 				end.call(this, chunk);
+// 				const bodyStr = Buffer.concat(chunks.map((c) => Buffer.from(c))).toString();
+// 				resolve({
+// 					statusCode: res.statusCode,
+// 					headers: res.getHeaders(),
+// 					body: bodyStr,
+// 				});
+// 			})(res.end);
+
+// 		req.push(body);
+// 		req.push(null);
+
+// 		server.emit('request', req, res);
+// 	});
 // });

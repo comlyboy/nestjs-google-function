@@ -6,21 +6,25 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
-		"target": "es2022",
+		"target": "ES2024",
 		"sourceMap": true,
 		"outDir": "./dist",
 		"baseUrl": "./",
 		"incremental": true,
 		"skipLibCheck": true,
 		"strict": true,
-		"esModuleInterop": false,
-		"noImplicitAny": false,
+		"noImplicitAny": true,
+		"esModuleInterop": true,
 		"strictNullChecks": false,
+		"allowUnreachableCode": false,
 		"noUnusedLocals": true,
 		"noUnusedParameters": false,
 		"strictBindCallApply": false,
 		"useUnknownInCatchVariables": false,
 		"forceConsistentCasingInFileNames": true,
-		"noFallthroughCasesInSwitch": true
+		"noFallthroughCasesInSwitch": true,
+		"paths": {
+			"@app/*": ["./src/*"],
+		}
 	}
 }
