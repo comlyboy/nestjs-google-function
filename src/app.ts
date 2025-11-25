@@ -29,15 +29,6 @@ export async function bootstrapApplication() {
 		// 		}
 		// 	})
 		// );
-
-		// morgan.token('id', request => {
-		// 	return utilityService.getCurrentInvocation().event?.requestContext?.requestId || Date.now().toString();
-		// });
-		// morgan.token('invocationId', request => {
-		// 	return utilityService.getCurrentInvocation().context?.awsRequestId;
-		// });
-		// application.use(morgan('LOG => :id | :invocationId | :date[iso] | :method | :status | :url - :total-time ms'));
-
 		return application;
 	} catch (error) {
 		console.log('Nest start failed', error);

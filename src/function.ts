@@ -1,25 +1,20 @@
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { http } from '@google-cloud/functions-framework';
-import { Request, Response } from 'express';
+import 'source-map-support/register';
+import e, { Request, Response } from 'express';
 
 import { bootstrapApplication } from "./app";
 
-const _FUNCTION_NAME = 'sample-function';
+let expressApplication: e.Express = null;
 
-let application: NestExpressApplication = null;
-
-async function getInitApplication() {
-	if (!application) {
-		application = await bootstrapApplication();
-		await application.init();
+export async function apiHandler(request: Request, response: Response) {
+	if (!expressApplication) {
+		console.log('Initializing new API instance!');
+		const app = await bootstrapApplication();
+		await app.init();
+		expressApplication = app.getHttpAdapter().getInstance();
 	}
-	return application.getHttpAdapter().getInstance();
+	expressApplication(request, response);
 }
 
-http(_FUNCTION_NAME, async (request: Request, response: Response) => {
-	const expressInstance = await getInitApplication();
-	expressInstance(request, response);
-});
 
 // cloudEvent(_FUNCTION_NAME, async (event: CloudEvent<any>) => {
 // 	const app = await getInitApplication();
